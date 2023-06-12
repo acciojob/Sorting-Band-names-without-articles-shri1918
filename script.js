@@ -1,22 +1,26 @@
-//your code here
+window.onload = function() {
+  let bandNames = ['The Rolling Stones', 'Aerosmith', 'The Beatles', 'Anthrax', 'Metallica'];
 
-let bandNames = ['The Beatles', 'Aerosmith', 'The Rolling Stones', 'Led Zeppelin'];
+  // Sort the band names in lexicographic order excluding articles
+  bandNames.sort(function(a, b) {
+    return removeArticles(a) > removeArticles(b) ? 1 : -1;
+  });
 
-// Remove articles ('a', 'an', 'the') from the band names
-const articles = ['a', 'an', 'the'];
-const bandNamesWithoutArticles = bandNames.map(name => {
-  let words = name.split(' ');
-  words = words.filter(word => !articles.includes(word.toLowerCase()));
-  return words.join(' ');
-});
+  // Display the sorted band names in the <ul> element
+  const ul = document.getElementById('band');
+  bandNames.forEach(function(name) {
+    const li = document.createElement('li');
+    li.textContent = name;
+    ul.appendChild(li);
+  });
+}
 
-// Sort the band names in lexicographic order
-const sortedBandNames = bandNamesWithoutArticles.sort();
-
-// Display the sorted band names inside the 'band' ul element
-const ulElement = document.getElementById('band');
-sortedBandNames.forEach(name => {
-  const liElement = document.createElement('li');
-  liElement.textContent = name;
-  ulElement.appendChild(liElement);
-});
+function removeArticles(name) {
+  const articles = ['The ', 'A ', 'An '];
+  articles.forEach(function(article) {
+    if (name.startsWith(article)) {
+      name = name.substring(article.length);
+    }
+  });
+  return name;
+}
